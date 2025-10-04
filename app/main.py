@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.api.routes import apps, categories, hash_verification
 from app.database import engine, Base
 
@@ -20,6 +21,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Подключение статических файлов для иконок и изображений
+app.mount("/static", StaticFiles(directory="data"), name="static")
 
 # Подключение роутов
 app.include_router(apps.router, prefix="/api/v1/apps", tags=["apps"])

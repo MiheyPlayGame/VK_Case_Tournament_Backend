@@ -31,6 +31,9 @@ class AppBase(BaseModel):
     category_id: int
     age_rating: str = "0+"
     apk_url: Optional[str] = None
+    rating: Optional[float] = None
+    file_size: Optional[float] = None
+    downloads: Optional[str] = None
 
 class AppCreate(AppBase):
     """Схема для создания приложения"""
@@ -48,6 +51,9 @@ class AppUpdate(BaseModel):
     age_rating: Optional[str] = None
     apk_url: Optional[str] = None
     is_active: Optional[bool] = None
+    rating: Optional[float] = None
+    file_size: Optional[float] = None
+    downloads: Optional[str] = None
 
 class AppResponse(AppBase):
     """Схема ответа приложения"""
@@ -69,6 +75,7 @@ class AppListResponse(BaseModel):
     header_image_url: Optional[str] = None
     category_id: int
     age_rating: str
+    rating: Optional[float] = None
     
     class Config:
         from_attributes = True

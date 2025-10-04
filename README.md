@@ -56,6 +56,10 @@ python -m app.seed_data
 Скрипт автоматически загрузит данные из файлов:
 - `data/categories.json` - категории приложений
 - `data/apps/*.json` - данные приложений
+- `data/apks/*.apk` - APK файлы приложений
+- `data/icons/*.png` - иконки приложений
+- `data/headers/*.png` - заголовочные изображения
+- `data/screenshots/*.webp` - скриншоты приложений
 
 ### 4. Запуск сервера
 ```bash
@@ -72,37 +76,35 @@ python run.py
 ```json
 [
     {
-        "name": "Финансы",
-        "description": "Банковские приложения, кошельки, инвестиции"
-    },
-    {
-        "name": "Инструменты", 
-        "description": "Полезные утилиты и инструменты"
+        "name": "Развлечения",
+        "description": "Музыка, видео и т.д.",
+        "tag": "медиа",
+        "tag_color": "#FF8024C0"
     },
     {
         "name": "Игры",
-        "description": "Мобильные игры и развлечения"
+        "description": "Мобильные игры",
+        "tag": "игры",
+        "tag_color": "#FF0077FF"
     },
     {
-        "name": "Государственные",
-        "description": "Госуслуги и официальные приложения"
+        "name": "Социальные сети и мессенджеры",
+        "description": "Социальные сети и мессенджеры",
+        "tag": "соцсети",
+        "tag_color": "#FFFF3985"
     },
     {
-        "name": "Транспорт",
-        "description": "Такси, каршеринг, общественный транспорт"
+        "name": "Финансы",
+        "description": "Банковские приложения, кошельки, инвестиции",
+        "tag": "финансы",
+        "tag_color": "#FF00EAFF"
     }
 ]
 ```
 
 ### Приложения (`data/apps/`)
-Включает 7 готовых приложений:
-- **2048.json** - игра 2048
-- **genshin.json** - Genshin Impact
-- **gosuslugi.json** - Госуслуги
-- **sberbank.json** - Сбербанк Онлайн
-- **telegram.json** - Telegram
-- **vtb.json** - ВТБ Онлайн
-- **yandex_taxi.json** - Яндекс.Такси
+Включает готовое приложение:
+- **vk_music.json** - VK Music - музыкальный клиент для ВКонтакте
 
 Каждый файл приложения содержит:
 ```json
@@ -116,6 +118,9 @@ python run.py
     "category_name": "Название категории",
     "age_rating": "Возрастной рейтинг",
     "apk_url": "URL APK файла",
+    "rating": 4.2,
+    "file_size": 68.0,
+    "downloads": "10M+",
     "screenshots": ["URL1", "URL2", "URL3"]
 }
 ```
@@ -162,14 +167,18 @@ VK_Case_Tournament_Backend/
 ├── data/                 # Тестовые данные
 │   ├── __init__.py
 │   ├── categories.json   # Категории приложений
-│   └── apps/             # Данные приложений
-│       ├── 2048.json
-│       ├── genshin.json
-│       ├── gosuslugi.json
-│       ├── sberbank.json
-│       ├── telegram.json
-│       ├── vtb.json
-│       └── yandex_taxi.json
+│   ├── apps/             # Данные приложений
+│   │   └── vk_music.json
+│   ├── apks/             # APK файлы
+│   │   └── vk_music.apk
+│   ├── icons/            # Иконки приложений
+│   │   └── vk_music-icon.png
+│   ├── headers/          # Заголовочные изображения
+│   │   └── vk_music-header.png
+│   └── screenshots/      # Скриншоты приложений
+│       ├── vk_music-1.webp
+│       ├── vk_music-2.webp
+│       └── vk_music-3.webp
 ├── config.py             # Конфигурация приложения
 ├── run.py                # Скрипт запуска
 ├── requirements.txt      # Зависимости Python
@@ -214,7 +223,7 @@ curl http://localhost:8000/api/v1/apps/
 
 ### Поиск приложений
 ```bash
-curl "http://localhost:8000/api/v1/apps/search?q=банк"
+curl "http://localhost:8000/api/v1/apps/search?q=музыка"
 ```
 
 ### Фильтрация по категории

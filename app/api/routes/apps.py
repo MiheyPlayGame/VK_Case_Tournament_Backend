@@ -31,6 +31,16 @@ async def search_apps(
     apps = app_service.search_apps(query=q, limit=limit, offset=offset)
     return apps
 
+@router.get("/featured", response_model=List[AppListResponse])
+async def get_featured_apps(
+    limit: int = Query(5, ge=1, le=20, description="Количество приложений в топе"),
+    db: Session = Depends(get_db)
+):
+    """Получить топ приложений по рейтингу"""
+    app_service = AppService(db)
+    apps = app_service.get_featured_apps(limit=limit)
+    return apps
+
 @router.get("/{app_id}", response_model=AppResponse)
 async def get_app(app_id: int, db: Session = Depends(get_db)):
     """Получить приложение по ID"""

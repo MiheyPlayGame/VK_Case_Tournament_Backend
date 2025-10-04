@@ -47,6 +47,8 @@ def create_categories():
                 if existing_by_name:
                     # Обновляем существующую категорию
                     existing_by_name.description = cat_data["description"]
+                    existing_by_name.tag = cat_data["tag"]
+                    existing_by_name.tag_color = cat_data["tag_color"]
                     existing_by_name.data_hash = expected_hash
                     print(f"   🔄 Обновлена категория: {cat_data['name']}")
                 else:
@@ -113,7 +115,10 @@ def create_apps():
                 header_image_url=app_data["header_image_url"],
                 category_id=category_map[app_data["category_name"]],
                 age_rating=app_data["age_rating"],
-                apk_url=app_data["apk_url"]
+                apk_url=app_data["apk_url"],
+                rating=app_data["rating"],
+                file_size=app_data["file_size"],
+                downloads=app_data["downloads"]
             )
             app_dict = HashUtils.get_data_for_hash(app)
             expected_hash = HashUtils.calculate_app_hash(app_dict)
@@ -135,6 +140,9 @@ def create_apps():
                     existing_by_name.category_id = category_map[app_data["category_name"]]
                     existing_by_name.age_rating = app_data["age_rating"]
                     existing_by_name.apk_url = app_data["apk_url"]
+                    existing_by_name.rating = app_data["rating"]
+                    existing_by_name.file_size = app_data["file_size"]
+                    existing_by_name.downloads = app_data["downloads"]
                     existing_by_name.data_hash = expected_hash
                     
                     # Удаляем старые скриншоты

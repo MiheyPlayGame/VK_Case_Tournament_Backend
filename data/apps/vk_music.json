@@ -1,0 +1,19 @@
+{
+    "name": "VK Music",
+    "description": "VK Music - это музыкальный клиент для Android, который позволяет вам слушать музыку из ВКонтакте.",
+    "short_description": "Музыкальный клиент для ВКонтакте",
+    "company": "VK",
+    "icon_url": "/static/icons/vk_music-icon.png",
+    "header_image_url": "/static/headers/vk_music-header.png",
+    "category_name": "Развлечения",
+    "age_rating": "12+",
+    "apk_url": "/static/apks/vk_music.apk",
+    "rating": 4.2,
+    "file_size": 68.0,
+    "downloads": "10M+",
+    "screenshots": [
+        "/static/screenshots/vk_music-1.png",
+        "/static/screenshots/vk_music-2.png",
+        "/static/screenshots/vk_music-3.png"
+    ]
+}

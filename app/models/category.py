@@ -9,6 +9,8 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), nullable=False, unique=True, index=True)
     description = Column(String(500), nullable=True)
+    tag = Column(String(10), nullable=True)
+    tag_color = Column(String(9), nullable=True)
     data_hash = Column(String(64), nullable=True)  # SHA-256 хеш данных для проверки целостности
     
     # Связи
@@ -28,6 +30,8 @@ class Category(Base):
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "tag": self.tag,
+            "tag_color": self.tag_color,
             "data_hash": self.data_hash,
             "apps_count": self.apps_count
         }

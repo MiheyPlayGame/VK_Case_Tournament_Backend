@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Boolean, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
@@ -21,6 +21,9 @@ class App(Base):
     data_hash = Column(String(64), nullable=True)  # SHA-256 хеш данных для проверки целостности
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    rating = Column(Float, nullable=True)
+    file_size = Column(Float, nullable=True)
+    downloads = Column(String(64), nullable=True)
     
     # Связи
     category = relationship("Category", back_populates="apps")
@@ -45,5 +48,8 @@ class App(Base):
             "is_active": self.is_active,
             "data_hash": self.data_hash,
             "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "rating": self.rating,
+            "file_size": self.file_size,
+            "downloads": self.downloads
         }
