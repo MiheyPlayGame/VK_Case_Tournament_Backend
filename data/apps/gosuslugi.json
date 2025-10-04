@@ -1,0 +1,17 @@
+{
+    "name": "Госуслуги",
+    "description": "Единый портал государственных услуг. Получение справок, запись к врачу, оплата штрафов и налогов.",
+    "short_description": "Государственные услуги онлайн",
+    "company": "Минцифры России",
+    "icon_url": "https://example.com/gosuslugi-icon.png",
+    "header_image_url": "https://example.com/gosuslugi-header.png",
+    "category_name": "Государственные",
+    "age_rating": "0+",
+    "apk_url": "https://example.com/gosuslugi.apk",
+    "screenshots": [
+        "https://example.com/gosuslugi-1.png",
+        "https://example.com/gosuslugi-2.png",
+        "https://example.com/gosuslugi-3.png",
+        "https://example.com/gosuslugi-4.png"
+    ]
+}

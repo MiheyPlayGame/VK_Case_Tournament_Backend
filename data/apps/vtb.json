@@ -1,0 +1,15 @@
+{
+    "name": "ВТБ Онлайн",
+    "description": "Официальное приложение ВТБ для мобильного банкинга. Переводы, платежи, управление картами и вкладами.",
+    "short_description": "Мобильный банк ВТБ",
+    "company": "ВТБ",
+    "icon_url": "https://example.com/vtb-icon.png",
+    "header_image_url": "https://example.com/vtb-header.png",
+    "category_name": "Финансы",
+    "age_rating": "0+",
+    "apk_url": "https://example.com/vtb.apk",
+    "screenshots": [
+        "https://example.com/vtb-1.png",
+        "https://example.com/vtb-2.png"
+    ]
+}

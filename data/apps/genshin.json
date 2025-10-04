@@ -1,0 +1,15 @@
+{
+    "name": "Genshin Impact",
+    "description": "Genshin Impact - это открытый мир RPG с открытым миром, где вы можете путешествовать по разным странам и исследовать их.",
+    "short_description": "Открытый мир RPG",
+    "company": "HoYoVerse",
+    "icon_url": "https://example.com/Genshin-icon.png",
+    "header_image_url": "https://example.com/Genshin-header.png",
+    "category_name": "Игры",
+    "age_rating": "18+",
+    "apk_url": "https://example.com/Genshin.apk",
+    "screenshots": [
+        "https://example.com/Genshin-1.png",
+        "https://example.com/Genshin-2.png"
+    ]
+}

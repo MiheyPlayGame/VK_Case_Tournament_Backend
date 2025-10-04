@@ -1,0 +1,16 @@
+{
+    "name": "Сбербанк Онлайн",
+    "description": "Мобильное приложение Сбербанка для управления финансами, переводами и платежами. Безопасные операции с картами и вкладами.",
+    "short_description": "Управление финансами и картами",
+    "company": "Сбербанк",
+    "icon_url": "https://example.com/sberbank-icon.png",
+    "header_image_url": "https://example.com/sberbank-header.png",
+    "category_name": "Финансы",
+    "age_rating": "0+",
+    "apk_url": "https://example.com/sberbank.apk",
+    "screenshots": [
+        "https://example.com/sberbank-1.png",
+        "https://example.com/sberbank-2.png",
+        "https://example.com/sberbank-3.png"
+    ]
+}

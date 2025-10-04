@@ -1,0 +1,15 @@
+{
+    "name": "Яндекс.Такси",
+    "description": "Заказ такси в любом городе России. Быстро, удобно и безопасно. Отслеживание поездки в реальном времени.",
+    "short_description": "Заказ такси онлайн",
+    "company": "Яндекс",
+    "icon_url": "https://example.com/yandex-taxi-icon.png",
+    "header_image_url": "https://example.com/yandex-taxi-header.png",
+    "category_name": "Транспорт",
+    "age_rating": "0+",
+    "apk_url": "https://example.com/yandex-taxi.apk",
+    "screenshots": [
+        "https://example.com/yandex-taxi-1.png",
+        "https://example.com/yandex-taxi-2.png"
+    ]
+}
