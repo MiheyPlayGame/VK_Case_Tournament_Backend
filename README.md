@@ -66,7 +66,7 @@ python -m app.seed_data
 python run.py
 ```
 
-Сервер будет доступен по адресу: http://localhost:8000
+Сервер будет доступен по адресу: http://localhost:9000
 
 ## Тестовые данные
 
@@ -92,12 +92,6 @@ python run.py
         "description": "Социальные сети и мессенджеры",
         "tag": "соцсети",
         "tag_color": "#FFFF3985"
-    },
-    {
-        "name": "Финансы",
-        "description": "Банковские приложения, кошельки, инвестиции",
-        "tag": "финансы",
-        "tag_color": "#FF00EAFF"
     }
 ]
 ```
@@ -128,8 +122,8 @@ python run.py
 ## API Документация
 
 После запуска сервера документация API будет доступна по адресам:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+- **Swagger UI**: http://localhost:9000/docs
+- **ReDoc**: http://localhost:9000/redoc
 
 ## Структура проекта
 
@@ -218,52 +212,52 @@ VK_Case_Tournament_Backend/
 
 ### Получение списка приложений
 ```bash
-curl http://localhost:8000/api/v1/apps/
+curl http://localhost:9000/api/v1/apps/
 ```
 
 ### Поиск приложений
 ```bash
-curl "http://localhost:8000/api/v1/apps/search?q=музыка"
+curl "http://localhost:9000/api/v1/apps/search?q=музыка"
 ```
 
 ### Фильтрация по категории
 ```bash
-curl "http://localhost:8000/api/v1/apps/?category_id=1"
+curl "http://localhost:9000/api/v1/apps/?category_id=1"
 ```
 
 ### Получение всех категорий
 ```bash
-curl http://localhost:8000/api/v1/categories/
+curl http://localhost:9000/api/v1/categories/
 ```
 
 ### Проверка целостности данных
 ```bash
 # Проверить целостность всех данных
-curl http://localhost:8000/api/v1/hash/verify-all
+curl http://localhost:9000/api/v1/hash/verify-all
 
 # Проверить только категории
-curl http://localhost:8000/api/v1/hash/verify-categories
+curl http://localhost:9000/api/v1/hash/verify-categories
 
 # Проверить только приложения
-curl http://localhost:8000/api/v1/hash/verify-apps
+curl http://localhost:9000/api/v1/hash/verify-apps
 
 # Исправить поврежденные данные
-curl -X POST http://localhost:8000/api/v1/hash/fix-corrupted
+curl -X POST http://localhost:9000/api/v1/hash/fix-corrupted
 
 # Пересчитать все хеши
-curl -X POST http://localhost:8000/api/v1/hash/recalculate-all
+curl -X POST http://localhost:9000/api/v1/hash/recalculate-all
 
 # Найти дублирующиеся записи
-curl http://localhost:8000/api/v1/hash/duplicates
+curl http://localhost:9000/api/v1/hash/duplicates
 ```
 
 ### Системные запросы
 ```bash
 # Информация о API
-curl http://localhost:8000/
+curl http://localhost:9000/
 
 # Проверка состояния сервера
-curl http://localhost:8000/health
+curl http://localhost:9000/health
 ```
 
 ## Проверка целостности данных
@@ -282,22 +276,22 @@ API включает в себя систему проверки целостн�
 
 ```bash
 # Проверить все данные на целостность
-curl http://localhost:8000/api/v1/hash/verify-all
+curl http://localhost:9000/api/v1/hash/verify-all
 
 # Проверить только категории
-curl http://localhost:8000/api/v1/hash/verify-categories
+curl http://localhost:9000/api/v1/hash/verify-categories
 
 # Проверить только приложения
-curl http://localhost:8000/api/v1/hash/verify-apps
+curl http://localhost:9000/api/v1/hash/verify-apps
 
 # Исправить поврежденные данные
-curl -X POST http://localhost:8000/api/v1/hash/fix-corrupted
+curl -X POST http://localhost:9000/api/v1/hash/fix-corrupted
 
 # Пересчитать все хеши
-curl -X POST http://localhost:8000/api/v1/hash/recalculate-all
+curl -X POST http://localhost:9000/api/v1/hash/recalculate-all
 
 # Найти дублирующиеся записи
-curl http://localhost:8000/api/v1/hash/duplicates
+curl http://localhost:9000/api/v1/hash/duplicates
 ```
 
 ## Умная система заполнения данных
