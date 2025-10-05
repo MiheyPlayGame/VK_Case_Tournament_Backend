@@ -73,10 +73,12 @@ class AppListResponse(BaseModel):
     short_description: str
     company: str
     icon_url: str
-    header_image_url: Optional[str] = None
+    header_image_url: str
     category_id: int
     age_rating: str
-    rating: Optional[float] = None
+    rating: float
+    downloads: str
+    file_size: float
     
     class Config:
         from_attributes = True
