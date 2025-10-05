@@ -71,6 +71,7 @@ class AppListResponse(BaseModel):
     id: int
     name: str
     short_description: str
+    company: str
     icon_url: str
     header_image_url: Optional[str] = None
     category_id: int
