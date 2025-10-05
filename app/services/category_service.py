@@ -32,7 +32,9 @@ class CategoryService:
         # Создаем временный объект для вычисления хеша
         temp_category = Category(
             name=category_data.name,
-            description=category_data.description
+            description=category_data.description,
+            tag=category_data.tag,
+            tag_color=category_data.tag_color
         )
         temp_category_dict = HashUtils.get_data_for_hash(temp_category)
         expected_hash = HashUtils.calculate_category_hash(temp_category_dict)
@@ -44,7 +46,9 @@ class CategoryService:
         
         category = Category(
             name=category_data.name,
-            description=category_data.description
+            description=category_data.description,
+            tag=category_data.tag,
+            tag_color=category_data.tag_color
         )
         
         self.db.add(category)
@@ -68,7 +72,9 @@ class CategoryService:
         update_data = category_data.dict(exclude_unset=True)
         temp_category = Category(
             name=update_data.get('name', category.name),
-            description=update_data.get('description', category.description)
+            description=update_data.get('description', category.description),
+            tag=update_data.get('tag', category.tag),
+            tag_color=update_data.get('tag_color', category.tag_color)
         )
         temp_category_dict = HashUtils.get_data_for_hash(temp_category)
         expected_hash = HashUtils.calculate_category_hash(temp_category_dict)

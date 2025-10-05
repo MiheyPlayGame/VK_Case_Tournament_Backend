@@ -1,7 +1,11 @@
 """
 Скрипт для заполнения базы данных тестовыми данными
 """
-from sqlalchemy.orm import Session
+import sys
+import json
+from pathlib import Path
+sys.stdout.reconfigure(encoding='utf-8')
+
 from app.database import SessionLocal, engine
 from app.models.app import App
 from app.models.category import Category
@@ -9,30 +13,21 @@ from app.models.screenshot import Screenshot
 from app.database import Base
 from app.utils.hash_utils import HashUtils
 
+def load_categories_from_json():
+    """Загрузка категорий из JSON файла"""
+    data_dir = Path(__file__).parent.parent / "data"
+    categories_file = data_dir / "categories.json"
+    
+    try:
+        with open(categories_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"⚠️ Файл {categories_file} не найден")
+        return []
+
 def create_categories():
     """Создание категорий"""
-    categories_data = [
-        {
-            "name": "Финансы",
-            "description": "Банковские приложения, кошельки, инвестиции"
-        },
-        {
-            "name": "Инструменты", 
-            "description": "Полезные утилиты и инструменты"
-        },
-        {
-            "name": "Игры",
-            "description": "Мобильные игры и развлечения"
-        },
-        {
-            "name": "Государственные",
-            "description": "Госуслуги и официальные приложения"
-        },
-        {
-            "name": "Транспорт",
-            "description": "Такси, каршеринг, общественный транспорт"
-        }
-    ]
+    categories_data = load_categories_from_json()
     
     db = SessionLocal()
     try:
@@ -52,6 +47,8 @@ def create_categories():
                 if existing_by_name:
                     # Обновляем существующую категорию
                     existing_by_name.description = cat_data["description"]
+                    existing_by_name.tag = cat_data["tag"]
+                    existing_by_name.tag_color = cat_data["tag_color"]
                     existing_by_name.data_hash = expected_hash
                     print(f"   🔄 Обновлена категория: {cat_data['name']}")
                 else:
@@ -69,6 +66,28 @@ def create_categories():
     finally:
         db.close()
 
+def load_apps_from_json():
+    """Загрузка приложений из JSON файлов"""
+    data_dir = Path(__file__).parent.parent / "data"
+    apps_dir = data_dir / "apps"
+    apps_data = []
+    
+    if not apps_dir.exists():
+        print(f"⚠️  Директория {apps_dir} не найдена")
+        return []
+    
+    # Загружаем все JSON файлы из директории apps
+    for json_file in apps_dir.glob("*.json"):
+        try:
+            with open(json_file, 'r', encoding='utf-8') as f:
+                app_data = json.load(f)
+                apps_data.append(app_data)
+                print(f"   📄 Загружен файл: {json_file.name}")
+        except Exception as e:
+            print(f"   ❌ Ошибка при загрузке {json_file.name}: {e}")
+    
+    return apps_data
+
 def create_apps():
     """Создание приложений"""
     db = SessionLocal()
@@ -77,104 +96,15 @@ def create_apps():
         categories = db.query(Category).all()
         category_map = {cat.name: cat.id for cat in categories}
         
-        apps_data = [
-            {
-                "name": "Сбербанк Онлайн",
-                "description": "Мобильное приложение Сбербанка для управления финансами, переводами и платежами. Безопасные операции с картами и вкладами.",
-                "short_description": "Управление финансами и картами",
-                "company": "Сбербанк",
-                "icon_url": "https://example.com/sberbank-icon.png",
-                "header_image_url": "https://example.com/sberbank-header.png",
-                "category_name": "Финансы",
-                "age_rating": "0+",
-                "apk_url": "https://example.com/sberbank.apk",
-                "screenshots": [
-                    "https://example.com/sberbank-1.png",
-                    "https://example.com/sberbank-2.png",
-                    "https://example.com/sberbank-3.png"
-                ]
-            },
-            {
-                "name": "ВТБ Онлайн",
-                "description": "Официальное приложение ВТБ для мобильного банкинга. Переводы, платежи, управление картами и вкладами.",
-                "short_description": "Мобильный банк ВТБ",
-                "company": "ВТБ",
-                "icon_url": "https://example.com/vtb-icon.png",
-                "header_image_url": "https://example.com/vtb-header.png",
-                "category_name": "Финансы",
-                "age_rating": "0+",
-                "apk_url": "https://example.com/vtb.apk",
-                "screenshots": [
-                    "https://example.com/vtb-1.png",
-                    "https://example.com/vtb-2.png"
-                ]
-            },
-            {
-                "name": "Госуслуги",
-                "description": "Единый портал государственных услуг. Получение справок, запись к врачу, оплата штрафов и налогов.",
-                "short_description": "Государственные услуги онлайн",
-                "company": "Минцифры России",
-                "icon_url": "https://example.com/gosuslugi-icon.png",
-                "header_image_url": "https://example.com/gosuslugi-header.png",
-                "category_name": "Государственные",
-                "age_rating": "0+",
-                "apk_url": "https://example.com/gosuslugi.apk",
-                "screenshots": [
-                    "https://example.com/gosuslugi-1.png",
-                    "https://example.com/gosuslugi-2.png",
-                    "https://example.com/gosuslugi-3.png",
-                    "https://example.com/gosuslugi-4.png"
-                ]
-            },
-            {
-                "name": "Яндекс.Такси",
-                "description": "Заказ такси в любом городе России. Быстро, удобно и безопасно. Отслеживание поездки в реальном времени.",
-                "short_description": "Заказ такси онлайн",
-                "company": "Яндекс",
-                "icon_url": "https://example.com/yandex-taxi-icon.png",
-                "header_image_url": "https://example.com/yandex-taxi-header.png",
-                "category_name": "Транспорт",
-                "age_rating": "0+",
-                "apk_url": "https://example.com/yandex-taxi.apk",
-                "screenshots": [
-                    "https://example.com/yandex-taxi-1.png",
-                    "https://example.com/yandex-taxi-2.png"
-                ]
-            },
-            {
-                "name": "Telegram",
-                "description": "Быстрый и безопасный мессенджер. Отправка сообщений, файлов, голосовых и видеозвонков.",
-                "short_description": "Безопасный мессенджер",
-                "company": "Telegram FZ-LLC",
-                "icon_url": "https://example.com/telegram-icon.png",
-                "header_image_url": "https://example.com/telegram-header.png",
-                "category_name": "Инструменты",
-                "age_rating": "12+",
-                "apk_url": "https://example.com/telegram.apk",
-                "screenshots": [
-                    "https://example.com/telegram-1.png",
-                    "https://example.com/telegram-2.png",
-                    "https://example.com/telegram-3.png"
-                ]
-            },
-            {
-                "name": "2048",
-                "description": "Классическая головоломка с числами. Объединяйте плитки с одинаковыми числами, чтобы получить 2048!",
-                "short_description": "Головоломка с числами",
-                "company": "Gabriele Cirulli",
-                "icon_url": "https://example.com/2048-icon.png",
-                "header_image_url": "https://example.com/2048-header.png",
-                "category_name": "Игры",
-                "age_rating": "0+",
-                "apk_url": "https://example.com/2048.apk",
-                "screenshots": [
-                    "https://example.com/2048-1.png",
-                    "https://example.com/2048-2.png"
-                ]
-            }
-        ]
+        # Загружаем данные из JSON файлов
+        apps_data = load_apps_from_json()
         
         for app_data in apps_data:
+            # Проверяем, что категория существует
+            if app_data["category_name"] not in category_map:
+                print(f"   ⚠️  Категория '{app_data['category_name']}' не найдена для приложения '{app_data['name']}' (пропускаем)")
+                continue
+                
             # Создаем временный объект для вычисления хеша
             app = App(
                 name=app_data["name"],
@@ -185,7 +115,10 @@ def create_apps():
                 header_image_url=app_data["header_image_url"],
                 category_id=category_map[app_data["category_name"]],
                 age_rating=app_data["age_rating"],
-                apk_url=app_data["apk_url"]
+                apk_url=app_data["apk_url"],
+                rating=app_data["rating"],
+                file_size=app_data["file_size"],
+                downloads=app_data["downloads"]
             )
             app_dict = HashUtils.get_data_for_hash(app)
             expected_hash = HashUtils.calculate_app_hash(app_dict)
@@ -207,6 +140,9 @@ def create_apps():
                     existing_by_name.category_id = category_map[app_data["category_name"]]
                     existing_by_name.age_rating = app_data["age_rating"]
                     existing_by_name.apk_url = app_data["apk_url"]
+                    existing_by_name.rating = app_data["rating"]
+                    existing_by_name.file_size = app_data["file_size"]
+                    existing_by_name.downloads = app_data["downloads"]
                     existing_by_name.data_hash = expected_hash
                     
                     # Удаляем старые скриншоты

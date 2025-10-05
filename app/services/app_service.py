@@ -37,25 +37,6 @@ class AppService:
     def create_app(self, app_data: AppCreate) -> App:
         """Создать новое приложение"""
         # Создаем временный объект для вычисления хеша
-        temp_app = App(
-            name=app_data.name,
-            description=app_data.description,
-            short_description=app_data.short_description,
-            company=app_data.company,
-            icon_url=app_data.icon_url,
-            category_id=app_data.category_id,
-            age_rating=app_data.age_rating,
-            apk_url=app_data.apk_url
-        )
-        temp_app_dict = HashUtils.get_data_for_hash(temp_app)
-        expected_hash = HashUtils.calculate_app_hash(temp_app_dict)
-        
-        # Проверяем, что приложение с таким хешем не существует
-        existing_app = self.get_app_by_hash(expected_hash)
-        if existing_app:
-            raise HTTPException(status_code=400, detail="Приложение с такими данными уже существует")
-        
-        # Создаем приложение
         app = App(
             name=app_data.name,
             description=app_data.description,
@@ -64,8 +45,18 @@ class AppService:
             icon_url=app_data.icon_url,
             category_id=app_data.category_id,
             age_rating=app_data.age_rating,
-            apk_url=app_data.apk_url
+            apk_url=app_data.apk_url,
+            rating=app_data.rating,
+            file_size=app_data.file_size,
+            downloads=app_data.downloads
         )
+        app_dict = HashUtils.get_data_for_hash(app)
+        expected_hash = HashUtils.calculate_app_hash(app_dict)
+        
+        # Проверяем, что приложение с таким хешем не существует
+        existing_app = self.get_app_by_hash(expected_hash)
+        if existing_app:
+            raise HTTPException(status_code=400, detail="Приложение с такими данными уже существует")
         
         self.db.add(app)
         self.db.flush()  # Получаем ID приложения
@@ -104,7 +95,10 @@ class AppService:
             icon_url=update_data.get('icon_url', app.icon_url),
             category_id=update_data.get('category_id', app.category_id),
             age_rating=update_data.get('age_rating', app.age_rating),
-            apk_url=update_data.get('apk_url', app.apk_url)
+            apk_url=update_data.get('apk_url', app.apk_url),
+            rating=update_data.get('rating', app.rating),
+            file_size=update_data.get('file_size', app.file_size),
+            downloads=update_data.get('downloads', app.downloads)
         )
         temp_app_dict = HashUtils.get_data_for_hash(temp_app)
         expected_hash = HashUtils.calculate_app_hash(temp_app_dict)
@@ -166,6 +160,12 @@ class AppService:
         
         self.db.commit()
         return new_hash
+    
+    def get_featured_apps(self, limit: int = 5) -> List[App]:
+        """Получить топ приложений по рейтингу"""
+        return self.db.query(App).filter(
+            and_(App.is_active == True, App.rating.isnot(None))
+        ).order_by(App.rating.desc()).limit(limit).all()
     
     def find_duplicate_apps(self) -> List[Dict[str, Any]]:
         """Найти дублирующиеся приложения по хешу"""
