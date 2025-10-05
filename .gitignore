@@ -24,3 +24,4 @@ logs/
 
 # Data directory
 data/
+categories.json
